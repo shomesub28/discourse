@@ -143,7 +143,9 @@ module Discourse
   end
 
   def self.activate_plugins!
-    all_plugins = Plugin::Instance.find_all("#{Rails.root}/plugins")
+    path = "plugins"
+    path = "spec/fixtures/plugins" if Rails.env == "test" && ENV['LOAD_PLUGINS'] != "1"
+    all_plugins = Plugin::Instance.find_all("#{Rails.root}/#{path}")
 
     if Rails.env.development?
       plugin_hash = Digest::SHA1.hexdigest(all_plugins.map { |p| p.path }.sort.join('|'))

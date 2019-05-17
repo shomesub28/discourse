@@ -246,13 +246,7 @@ module Discourse
       config.relative_url_root = GlobalSetting.relative_url_root
     end
 
-    if Rails.env == "test"
-      if ENV['LOAD_PLUGINS'] == "1"
-        Discourse.activate_plugins!
-      end
-    else
-      Discourse.activate_plugins!
-    end
+    Discourse.activate_plugins!
 
     Discourse.find_plugin_js_assets(include_disabled: true).each do |file|
       config.assets.precompile << "#{file}.js"
